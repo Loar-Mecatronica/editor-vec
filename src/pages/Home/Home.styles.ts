@@ -24,6 +24,11 @@ export const HomeTitle = styled.h1`
   cursor: pointer;
 `;
 
+export const ItalicTitle = styled.i`
+  font-family: 'Roboto';
+  font-size: 25px;
+`;
+
 export const HomeList = styled.h1`
   max-width: 100%;
   max-height: calc(100% - 110px);

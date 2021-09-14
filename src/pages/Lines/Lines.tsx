@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, useRouteMatch } from 'react-router';
 import { Card } from '../../components/Card/Card';
-import { PAGE_OFF, PAGE_ON } from '../../store/actions';
+import { PAGE_OFF, PAGE_ON, SET_LOCATION } from '../../store/actions';
 import { Route, Switch } from 'react-router-dom';
 import { Line } from '../Line/Line';
 //import { LinesProps } from './Lines.interfaces';
@@ -12,7 +12,8 @@ export const Lines = () => {
   const history = useHistory();
   const { path, url } = useRouteMatch();
   useEffect(() => {
-    dispatch({ type: PAGE_ON });
+    setTimeout(() => dispatch({ type: PAGE_ON }), 300);
+    dispatch({ type: SET_LOCATION, payload: 'Lineas' });
   }, [dispatch]);
   return (
     <Switch>

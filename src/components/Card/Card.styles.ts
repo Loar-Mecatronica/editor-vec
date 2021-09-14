@@ -13,12 +13,15 @@ export const CardLayout = styled.div`
   cursor: pointer;
   box-shadow: 0px 3px 10px rgb(0 0 0 /0.2);
   transition: all 0.3s ease;
+  word-wrap: break-word;
   &:hover {
-    transform: scale(1.3);
+    transform: scale(1.1);
   }
 `;
 
 export const CardBody = styled.div`
-  font-size: 50px;
+  font-size: 20px;
+  max-width: 190px;
+  word-wrap: break-word;
   color: rgba(0 0 0 / 0.5);
 `;

@@ -4,4 +4,9 @@ export interface UIAppState {
 
 export interface AppState {
   ui: UIAppState;
+  session: SessionState;
+}
+
+export interface SessionState {
+  location: string;
 }
