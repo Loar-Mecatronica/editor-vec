@@ -12,12 +12,14 @@ import { NavBar } from '../../components/NavBar/NavBar';
 import { FloatButtonGroup } from '../../components/FloatButtonGroup/FloatButtonGroup';
 import { Modal } from '../../components/Modal/Modal';
 import { useRef, useState } from 'react';
+import { AddEstationForm } from '../../components/AddEstationForm/AddEstationForm';
 
 export const Home = () => {
   const opacity = useSelector((state: AppState) => state.ui.pageOpacity);
   const location = useSelector((state: AppState) => state.session.location);
   const [modal, setModal] = useState(false);
   const refModal = useRef<HTMLDivElement>(null);
+  const refForm = useRef<HTMLFormElement>(null);
   function openModal() {
     if (refModal?.current) {
       refModal.current.style.display = 'flex';
@@ -34,9 +36,17 @@ export const Home = () => {
           <HomeRouter />
         </HomeList>
       </HomeLayout>
-      <FloatButtonGroup functions={[openModal]} />
-      <Modal refModal={refModal} active={modal} setModal={setModal}>
-        <h1>Formulario para agregar algo</h1>
+      {location === 'Estaciones' && (
+        <FloatButtonGroup functions={[openModal]} />
+      )}
+      <Modal
+        title="Agregar Estación"
+        refForm={refForm}
+        refModal={refModal}
+        active={modal}
+        setModal={setModal}
+      >
+        <AddEstationForm refForm={refForm} />
       </Modal>
     </HomeContainer>
   );

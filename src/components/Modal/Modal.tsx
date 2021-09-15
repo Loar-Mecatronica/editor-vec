@@ -9,7 +9,7 @@ import {
 import { ModalProps } from './Modal.interfaces';
 
 export const Modal = (props: ModalProps) => {
-  const { active, setModal, refModal, children } = props;
+  const { active, setModal, refModal, children, title = '', refForm } = props;
 
   return (
     <Dimmer
@@ -24,7 +24,7 @@ export const Modal = (props: ModalProps) => {
       }}
     >
       <ModalBox onClick={(e) => e.stopPropagation()} active={active}>
-        <ModalHeader>Agregar Sorpresa</ModalHeader>
+        <ModalHeader>{title}</ModalHeader>
         <ModalBody>{children}</ModalBody>
         <ModalFooter>
           <ModalButton
@@ -43,6 +43,7 @@ export const Modal = (props: ModalProps) => {
           <ModalButton
             onClick={() => {
               setModal(false);
+              refForm.current?.requestSubmit();
               setTimeout(() => {
                 if (refModal?.current !== null)
                   refModal.current.style.display = 'none';

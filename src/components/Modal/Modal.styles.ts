@@ -38,6 +38,20 @@ export const ModalHeader = styled.div`
 `;
 export const ModalBody = styled.div`
   margin: 10px;
+  max-height: 30vh;
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    border-radius: 8px;
+    background-color: #f1f1f1;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: #09779c;
+  }
 `;
 
 export const ModalFooter = styled.div`
