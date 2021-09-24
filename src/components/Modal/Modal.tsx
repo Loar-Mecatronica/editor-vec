@@ -38,12 +38,12 @@ export const Modal = (props: ModalProps) => {
             background="rgba(0,0,0,0.5)"
             textColor="white"
           >
-            Cancelar
+            Cerrar
           </ModalButton>
           <ModalButton
             onClick={() => {
-              setModal(false);
               refForm.current?.requestSubmit();
+              setModal(false);
               setTimeout(() => {
                 if (refModal?.current !== null)
                   refModal.current.style.display = 'none';
@@ -52,7 +52,7 @@ export const Modal = (props: ModalProps) => {
             background="#28A745"
             textColor="white"
           >
-            Aceptar
+            Guardar
           </ModalButton>
         </ModalFooter>
       </ModalBox>

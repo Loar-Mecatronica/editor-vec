@@ -18,7 +18,7 @@ export const Dimmer = styled.div`
 export const ModalBox = styled.div`
   display: grid;
   background-color: white;
-  width: 70%;
+  width: 600px;
   grid-template-rows: 5vh auto 5vh;
   border-radius: 3px;
   transform: ${(props: DimmerProps) =>
@@ -38,7 +38,7 @@ export const ModalHeader = styled.div`
 `;
 export const ModalBody = styled.div`
   margin: 10px;
-  max-height: 30vh;
+  max-height: 80vh;
   overflow-y: auto;
   ::-webkit-scrollbar {
     width: 10px;

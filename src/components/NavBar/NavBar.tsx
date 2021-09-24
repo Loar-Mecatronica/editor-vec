@@ -23,28 +23,9 @@ export const NavBar = () => {
           history.push('/');
         }}
       >
-        Editor Vec
+        Editor Genealogia
       </LeftTitle>
       <RightControls>
-        <ItemControl
-          selected={location === 'Lineas'}
-          onClick={() => {
-            dispatch({ type: PAGE_OFF });
-            setTimeout(() => history.push(`${path}/linea`), 500);
-            setTimeout(() => dispatch({ type: PAGE_ON }), 500);
-          }}
-        >
-          Lineas
-        </ItemControl>
-        <ItemControl
-          selected={location === 'Componentes'}
-          onClick={() => {
-            dispatch({ type: PAGE_OFF });
-            history.push(`${path}/componente`);
-          }}
-        >
-          Componentes
-        </ItemControl>
         <ItemControl
           selected={location === 'Estaciones'}
           onClick={() => {
@@ -54,6 +35,15 @@ export const NavBar = () => {
           }}
         >
           Estaciones
+        </ItemControl>
+        <ItemControl
+          selected={location === 'Componentes'}
+          onClick={() => {
+            dispatch({ type: PAGE_OFF });
+            history.push(`${path}/componente`);
+          }}
+        >
+          Componentes
         </ItemControl>
       </RightControls>
     </NavBarLayout>

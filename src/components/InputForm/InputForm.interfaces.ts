@@ -5,4 +5,13 @@ export interface InputFormProps {
   register: UseFormRegisterReturn;
   name: string;
   label?: string;
+  disabled?: boolean;
+}
+
+export interface InputStyleProps {
+  type?: string;
+}
+
+export interface InputFormLabelProps {
+  disabled: boolean;
 }

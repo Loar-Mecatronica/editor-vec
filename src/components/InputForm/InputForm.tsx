@@ -6,11 +6,19 @@ import {
 } from './InputForm.styles';
 
 export const InputForm = (props: InputFormProps) => {
-  const { type = 'text', register, name, label = '' } = props;
+  const { type = 'text', register, name, label = '', disabled = false } = props;
   return (
-    <InputFormContainer>
-      <InputLabel htmlFor={name}>{label}</InputLabel>
-      <InputFormInput id={name} type={type} {...register} />
+    <InputFormContainer type={type}>
+      <InputLabel disabled={disabled} htmlFor={name}>
+        {label}
+      </InputLabel>
+      <InputFormInput
+        disabled={disabled}
+        min={0}
+        id={name}
+        type={type}
+        {...register}
+      />
     </InputFormContainer>
   );
 };

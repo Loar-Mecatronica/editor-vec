@@ -5,5 +5,16 @@ export interface AddEstationFormProps {
 }
 
 export interface AddEstationFormData {
-  name: string;
+  nombre: string;
+  titulo: string;
+  linea: number;
+  componente: number;
+  ipScanner: string;
+  tipo: string;
+  bypass: boolean;
+  idProbadoraGen: number;
+  idProbadoraCal: number;
+  idEstacionSub: number;
+  componenteStartIndex: number;
+  componentLength: number;
 }

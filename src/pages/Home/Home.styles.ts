@@ -31,7 +31,7 @@ export const ItalicTitle = styled.i`
 
 export const HomeList = styled.h1`
   max-width: 100%;
-  max-height: calc(100% - 110px);
+  max-height: calc(100% - 100px);
   padding-top: 30px;
   padding-left: 30px;
   display: flex;

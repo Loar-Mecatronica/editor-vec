@@ -13,6 +13,7 @@ import { FloatButtonGroup } from '../../components/FloatButtonGroup/FloatButtonG
 import { Modal } from '../../components/Modal/Modal';
 import { useRef, useState } from 'react';
 import { AddEstationForm } from '../../components/AddEstationForm/AddEstationForm';
+import { AddComponentForm } from '../../components/AddComponentForm/AddComponentForm';
 
 export const Home = () => {
   const opacity = useSelector((state: AppState) => state.ui.pageOpacity);
@@ -36,17 +37,18 @@ export const Home = () => {
           <HomeRouter />
         </HomeList>
       </HomeLayout>
-      {location === 'Estaciones' && (
-        <FloatButtonGroup functions={[openModal]} />
-      )}
+      <FloatButtonGroup functions={[openModal]} />
       <Modal
-        title="Agregar Estación"
+        title={`Agregar ${
+          location === 'Estaciones' ? 'Estación' : 'Componente'
+        }`}
         refForm={refForm}
         refModal={refModal}
         active={modal}
         setModal={setModal}
       >
-        <AddEstationForm refForm={refForm} />
+        {location === 'Estaciones' && <AddEstationForm refForm={refForm} />}
+        {location === 'Componentes' && <AddComponentForm refForm={refForm} />}
       </Modal>
     </HomeContainer>
   );
