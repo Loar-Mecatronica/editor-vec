@@ -4,8 +4,9 @@ export const SelectFormContainer = styled.select`
   width: 150px;
   outline: none;
   background-color: white;
+  border: 1px solid #09779c;
+  border-radius: 3px;
   &:focus {
-    border: 1px solid #09779c;
     box-shadow: 0.5px 0px 3px 1px rgba(9, 119, 156, 0.5);
   }
 `;

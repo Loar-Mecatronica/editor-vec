@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { SpecialSelectProps } from './SpecialSelect.interfaces';
 import {
   SpecialSelectBadge,
@@ -10,20 +10,37 @@ import {
   SpecialSelectOptions,
 } from './SpecialSelect.styles';
 export const SpecialSelect = (props: SpecialSelectProps) => {
-  const { name, label = name, options = [] } = props;
+  const { name, label = name, options = [], onChangeData } = props;
   const [inputValue, setInputValue] = useState('');
   const [visibleOptions, setVisibleOptions] = useState(false);
   const [values, setValues] = useState<{ label: string; value: any }[]>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    onChangeData(values);
+  }, [values, onChangeData]);
+
   return (
     <SpecialSelectContainer>
       <SpecialSelectLabel>{label}</SpecialSelectLabel>
       <SpecialSelectInput
+        ref={inputRef}
+        value={inputValue}
         onFocus={() => setVisibleOptions(true)}
         onBlur={() => setTimeout(() => setVisibleOptions(false), 200)}
-        onChangeCapture={(e) => {
+        onChange={(e) => {
           setInputValue(e.currentTarget.value);
         }}
-        onKeyDown={(key) => {}}
+        onKeyUpCapture={(key) => {
+          if (key.key === 'Enter') {
+            setValues((old) => [
+              ...old,
+              { label: inputValue, value: inputValue },
+            ]);
+            setInputValue('');
+            inputRef.current?.blur();
+          }
+        }}
       ></SpecialSelectInput>
       <SpecialSelectBadgeContainer>
         {values.map((val: any, i) => {

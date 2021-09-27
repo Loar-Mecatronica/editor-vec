@@ -1,7 +1,10 @@
-import { RefObject } from 'react';
+import React, { RefObject } from 'react';
 
 export interface AddEstationFormProps {
   refForm: RefObject<HTMLFormElement>;
+  setModal: React.Dispatch<React.SetStateAction<boolean>>;
+  successCallBack?: () => void;
+  errorCallBack?: () => void;
 }
 
 export interface AddEstationFormData {
@@ -17,4 +20,5 @@ export interface AddEstationFormData {
   idEstacionSub: number;
   componenteStartIndex: number;
   componentLength: number;
+  defectos: string[];
 }

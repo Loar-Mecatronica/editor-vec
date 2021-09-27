@@ -43,7 +43,6 @@ export const Modal = (props: ModalProps) => {
           <ModalButton
             onClick={() => {
               refForm.current?.requestSubmit();
-              setModal(false);
               setTimeout(() => {
                 if (refModal?.current !== null)
                   refModal.current.style.display = 'none';

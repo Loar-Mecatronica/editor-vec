@@ -9,7 +9,7 @@ export const SpecialSelectContainer = styled.div`
 export const SpecialSelectInput = styled.input`
   width: 145px;
   border-radius: 3px;
-  border: 1px solid rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(9, 119, 156, 0.8);
   outline: none;
   &:focus {
     border: 1px solid #09779c;

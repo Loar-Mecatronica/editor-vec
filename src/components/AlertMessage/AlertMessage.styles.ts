@@ -1,13 +1,19 @@
 import styled from 'styled-components';
-import { AlertMessageBoxProps } from './AlertMessage.interfaces';
+import {
+  AlertMessageBoxProps,
+  AlertMessageContainerProps,
+} from './AlertMessage.interfaces';
 
 export const AlertMessageContainer = styled.div`
-  position: 1fixed;
+  position: absolute;
   height: 200px;
   width: 100vw;
-  display: flex;
+  display: ${(props: AlertMessageContainerProps) =>
+    props.active ? 'flex' : 'none'};
   justify-content: center;
   align-items: center;
+  top: 0;
+  left: 0;
 `;
 
 export const AlertMessageBox = styled.div`

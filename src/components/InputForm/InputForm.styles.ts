@@ -12,7 +12,7 @@ export const InputFormContainer = styled.div`
 export const InputFormInput = styled.input`
   border-radius: 3px;
   outline: none;
-  border: 1px solid rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(9, 119, 156, 0.8);
   font-family: 'Roboto';
   max-width: 200px;
   ${(props: InputStyleProps) =>

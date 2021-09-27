@@ -3,6 +3,11 @@ export interface AlertMessageBoxProps {
 }
 
 export interface AlertMessageProps {
+  active: boolean;
   type: 'success' | 'warning' | 'error' | 'info';
   message: string;
+}
+
+export interface AlertMessageContainerProps {
+  active: boolean;
 }

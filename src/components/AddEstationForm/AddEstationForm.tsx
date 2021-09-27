@@ -12,19 +12,30 @@ import { useForm } from 'react-hook-form';
 import { handleEstationLineSubmit } from './AddEstationForm.handlers';
 import { SelectForm } from '../../components/SelectForm/SelectForm';
 import { fetchComponentes } from './AddEstationForm.requests';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { fetchLineas } from '../../pages/Stations/Stations.requests';
 import { SpecialSelect } from '../SpecialSelect/SpecialSelect';
 
 export const AddEstationForm = (props: AddEstationFormProps) => {
-  const { register, handleSubmit, watch } = useForm<AddEstationFormData>({
-    defaultValues: { linea: 22 },
-  });
-  const { refForm } = props;
+  const { register, handleSubmit, watch, setValue } =
+    useForm<AddEstationFormData>({
+      defaultValues: { linea: 22 },
+    });
+  const { refForm, setModal } = props;
   const [selectLineas, setSelectLineas] = useState<any>([]);
   const [componentsOptions, setComponentOptions] = useState<
     { label: string; value: string; onClick?: () => void }[]
   >([]);
+
+  const dataHandler = useCallback(
+    (data) => {
+      setValue(
+        'defectos',
+        data.map((d: any) => d.value)
+      );
+    },
+    [setValue]
+  );
 
   useEffect(() => {
     fetchLineas(2).then((response) => {
@@ -51,7 +62,7 @@ export const AddEstationForm = (props: AddEstationFormProps) => {
   return (
     <AddEstationFormLayout
       ref={refForm}
-      onSubmit={handleSubmit(handleEstationLineSubmit)}
+      onSubmit={handleSubmit(handleEstationLineSubmit(setModal))}
     >
       <AddFormHorizontalDivider>
         <InputForm name="name" label="Nombre" register={register('nombre')} />
@@ -123,6 +134,7 @@ export const AddEstationForm = (props: AddEstationFormProps) => {
           register={register('componentLength')}
         />
         <SpecialSelect
+          onChangeData={dataHandler}
           label="Defectos"
           name="Defectos"
           options={[
