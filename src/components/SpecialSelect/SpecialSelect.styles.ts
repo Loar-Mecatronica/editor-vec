@@ -81,3 +81,9 @@ export const SpecialSelectLabel = styled.label`
   font-weight: bold;
   color: #09779c;
 `;
+
+export const ErrorLabel = styled.p`
+  padding: 0px;
+  margin: 0px;
+  color: rgba(217, 83, 79, 1);
+`;

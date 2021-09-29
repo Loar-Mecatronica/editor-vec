@@ -7,9 +7,22 @@ import {
   ModalHeader,
 } from './Modal.styles';
 import { ModalProps } from './Modal.interfaces';
+import { useEffect } from 'react';
 
 export const Modal = (props: ModalProps) => {
   const { active, setModal, refModal, children, title = '', refForm } = props;
+
+  useEffect(() => {
+    let modalTimeout: any;
+    if (!active) {
+      modalTimeout = setTimeout(() => {
+        if (refModal?.current !== null) {
+          refModal.current.style.display = 'none';
+        }
+      }, 500);
+    }
+    return () => clearTimeout(modalTimeout);
+  }, [active, refModal]);
 
   return (
     <Dimmer
@@ -43,10 +56,6 @@ export const Modal = (props: ModalProps) => {
           <ModalButton
             onClick={() => {
               refForm.current?.requestSubmit();
-              setTimeout(() => {
-                if (refModal?.current !== null)
-                  refModal.current.style.display = 'none';
-              }, 500);
             }}
             background="#28A745"
             textColor="white"

@@ -3,8 +3,10 @@ export interface SpecialSelectProps {
   name: string;
   multiple?: boolean;
   fetch?: Promise<any>;
+  value?: { label: string; value: string }[];
   options?: { label: string; value: any; onclick?: () => void }[];
   onChangeData: (data: { label: string; value: any }[]) => void;
+  error?: string;
 }
 
 export interface SpecialSelectOptionsProps {

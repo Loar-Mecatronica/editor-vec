@@ -5,4 +5,10 @@ export interface SelectFormProps {
   options: { label: string; value: any; handler?: () => void }[];
   label?: string;
   name: string;
+  disabled?: boolean;
+  error?: string;
+}
+
+export interface SelectFormLabelProps {
+  disabled: boolean;
 }

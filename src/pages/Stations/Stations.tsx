@@ -7,14 +7,13 @@ import { AppState } from '../../store/App-state.interfaces';
 import {
   CardHolder,
   FilterContainer,
-  LineButton,
-  LinesContainer,
   StationsLayout,
   TypesContainer,
 } from './Stations.styles';
 import { StationView } from '../Station/Station';
 import { fetchStations, fetchLineas } from './Stations.requests';
 import { Spinner } from '../../components/Spinner/Spinner';
+import { SearcherSelect } from '../../components/SearcherSelect/SearcherSelect';
 
 export const StationsView = () => {
   const location = useSelector((state: AppState) => state.session.location);
@@ -63,6 +62,24 @@ export const StationsView = () => {
         <StationsLayout>
           <FilterContainer>
             <TypesContainer>
+              <SearcherSelect
+                label="tipo de linea"
+                options={[
+                  { label: 'Subensamble', value: 'Subensamble' },
+                  { label: 'Linea', value: 'Linea' },
+                  { label: 'Probadora', value: 'Probadora' },
+                ]}
+              />
+            </TypesContainer>
+            <TypesContainer>
+              <SearcherSelect
+                label="linea"
+                options={lines.map((l) => {
+                  return { label: l.nombre, value: l.id };
+                })}
+              />
+            </TypesContainer>
+            {/*<TypesContainer>
               <LineButton
                 onClick={() => setPickedType('Subensamble')}
                 picked={pickedType === 'Subensamble'}
@@ -94,7 +111,7 @@ export const StationsView = () => {
                   </LineButton>
                 );
               })}
-            </LinesContainer>
+            </LinesContainer>*/}
           </FilterContainer>
           <CardHolder>
             {stations.map((station, k) => {
@@ -103,7 +120,10 @@ export const StationsView = () => {
                   key={`station-${k}`}
                   handleClick={() => {
                     dispatch({ type: PAGE_OFF });
-                    setTimeout(() => history.push(`${url}/${station.Id}`), 500);
+                    setTimeout(
+                      () => history.push(`${url}/${station.IDestacion}`),
+                      500
+                    );
                   }}
                 >
                   {station.Nombre}

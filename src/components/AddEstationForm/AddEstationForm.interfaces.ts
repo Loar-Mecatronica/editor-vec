@@ -1,8 +1,8 @@
 import React, { RefObject } from 'react';
 
 export interface AddEstationFormProps {
-  refForm: RefObject<HTMLFormElement>;
-  setModal: React.Dispatch<React.SetStateAction<boolean>>;
+  refForm?: RefObject<HTMLFormElement>;
+  setModal?: React.Dispatch<React.SetStateAction<boolean>>;
   successCallBack?: () => void;
   errorCallBack?: () => void;
 }
@@ -15,8 +15,6 @@ export interface AddEstationFormData {
   ipScanner: string;
   tipo: string;
   bypass: boolean;
-  idProbadoraGen: number;
-  idProbadoraCal: number;
   idEstacionSub: number;
   componenteStartIndex: number;
   componentLength: number;

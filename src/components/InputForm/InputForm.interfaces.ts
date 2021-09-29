@@ -6,6 +6,7 @@ export interface InputFormProps {
   name: string;
   label?: string;
   disabled?: boolean;
+  error?: string;
 }
 
 export interface InputStyleProps {

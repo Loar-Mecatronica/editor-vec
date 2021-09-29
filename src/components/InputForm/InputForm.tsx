@@ -1,24 +1,47 @@
 import { InputFormProps } from './InputForm.interfaces';
 import {
+  ErrorLabel,
+  InputCheckbox,
   InputFormContainer,
   InputFormInput,
   InputLabel,
 } from './InputForm.styles';
 
 export const InputForm = (props: InputFormProps) => {
-  const { type = 'text', register, name, label = '', disabled = false } = props;
+  const {
+    type = 'text',
+    register,
+    name,
+    label = '',
+    disabled = false,
+    error,
+  } = props;
   return (
     <InputFormContainer type={type}>
       <InputLabel disabled={disabled} htmlFor={name}>
         {label}
       </InputLabel>
-      <InputFormInput
-        disabled={disabled}
-        min={0}
-        id={name}
-        type={type}
-        {...register}
-      />
+      {type !== 'checkbox' && (
+        <InputFormInput
+          pattern={type === 'number' ? '[0-9]*' : '*'}
+          disabled={disabled}
+          min={0}
+          id={name}
+          type={type}
+          {...register}
+        />
+      )}
+      {type === 'checkbox' && (
+        <InputCheckbox
+          pattern={type === 'number' ? '[0-9]*' : '*'}
+          disabled={disabled}
+          min={0}
+          id={name}
+          type={type}
+          {...register}
+        />
+      )}
+      {error && <ErrorLabel>{error}</ErrorLabel>}
     </InputFormContainer>
   );
 };

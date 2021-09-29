@@ -14,11 +14,14 @@ export const CardHolder = styled.div`
 export const FilterContainer = styled.div`
   margin-top: 0px;
   margin-bottom: 50px;
+  display: flex;
 `;
 
 export const LinesContainer = styled.div``;
 
-export const TypesContainer = styled.div``;
+export const TypesContainer = styled.div`
+  margin-right: 200px;
+`;
 
 export const LineButton = styled.button`
   margin-right: 10px;

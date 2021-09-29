@@ -22,11 +22,14 @@ export const Home = () => {
   const [modal, setModal] = useState(false);
   const refModal = useRef<HTMLDivElement>(null);
   const refForm = useRef<HTMLFormElement>(null);
-  const [homeAlert, setHomeAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
-  const [alertType, setAlertType] = useState<
-    'success' | 'error' | 'warning' | 'info'
-  >('success');
+  const alertState = useState(false);
+  const [homeAlert, setHomeAlert] = useState<{
+    message: string;
+    type: 'success' | 'error' | 'warning' | 'info';
+  }>({
+    message: '',
+    type: 'success',
+  });
   function openModal() {
     if (refModal?.current) {
       refModal.current.style.display = 'flex';
@@ -35,11 +38,7 @@ export const Home = () => {
   }
   return (
     <HomeContainer>
-      <AlertMessage
-        type={alertType}
-        message={alertMessage}
-        active={homeAlert}
-      />
+      <AlertMessage state={alertState} {...homeAlert} />
       <HomeLayout>
         <NavBar />
         <hr />
@@ -59,7 +58,20 @@ export const Home = () => {
         setModal={setModal}
       >
         {location === 'Estaciones' && (
-          <AddEstationForm setModal={setModal} refForm={refForm} />
+          <AddEstationForm
+            setModal={setModal}
+            refForm={refForm}
+            successCallBack={() => {
+              alertState[1](true);
+              setHomeAlert((old) => {
+                return {
+                  ...old,
+                  message: 'Estación guardada con éxito',
+                  type: 'success',
+                };
+              });
+            }}
+          />
         )}
         {location === 'Componentes' && <AddComponentForm refForm={refForm} />}
       </Modal>

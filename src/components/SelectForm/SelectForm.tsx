@@ -1,15 +1,18 @@
 import {
+  ErrorLabel,
   SelectFormContainer,
   SelectFormLabel,
   SelectFormOption,
 } from './SelectForm.styles';
 import { SelectFormProps } from './SelectForm.interfaces';
 export const SelectForm = (props: SelectFormProps) => {
-  const { register, options, label, name } = props;
+  const { register, options, label, name, disabled = false, error } = props;
   return (
     <>
-      <SelectFormLabel>{label ? label : name}</SelectFormLabel>
-      <SelectFormContainer {...register} id={name}>
+      <SelectFormLabel disabled={disabled}>
+        {label ? label : name}
+      </SelectFormLabel>
+      <SelectFormContainer disabled={disabled} {...register} id={name}>
         {options.map((option, index) => {
           return (
             <SelectFormOption
@@ -22,6 +25,7 @@ export const SelectForm = (props: SelectFormProps) => {
           );
         })}
       </SelectFormContainer>
+      {error && <ErrorLabel>{error}</ErrorLabel>}
     </>
   );
 };

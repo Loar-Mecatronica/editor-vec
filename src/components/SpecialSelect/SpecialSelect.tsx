@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { ErrorLabel } from '../InputForm/InputForm.styles';
 import { SpecialSelectProps } from './SpecialSelect.interfaces';
 import {
   SpecialSelectBadge,
@@ -10,7 +11,14 @@ import {
   SpecialSelectOptions,
 } from './SpecialSelect.styles';
 export const SpecialSelect = (props: SpecialSelectProps) => {
-  const { name, label = name, options = [], onChangeData } = props;
+  const {
+    name,
+    label = name,
+    options = [],
+    onChangeData,
+    value = [],
+    error,
+  } = props;
   const [inputValue, setInputValue] = useState('');
   const [visibleOptions, setVisibleOptions] = useState(false);
   const [values, setValues] = useState<{ label: string; value: any }[]>([]);
@@ -19,6 +27,10 @@ export const SpecialSelect = (props: SpecialSelectProps) => {
   useEffect(() => {
     onChangeData(values);
   }, [values, onChangeData]);
+
+  useEffect(() => {
+    if (value !== undefined) setValues(value);
+  }, [value]);
 
   return (
     <SpecialSelectContainer>
@@ -42,6 +54,7 @@ export const SpecialSelect = (props: SpecialSelectProps) => {
           }
         }}
       ></SpecialSelectInput>
+      {error && <ErrorLabel>{error}</ErrorLabel>}
       <SpecialSelectBadgeContainer>
         {values.map((val: any, i) => {
           return (

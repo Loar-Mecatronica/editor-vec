@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { SelectFormLabelProps } from './SelectForm.interfaces';
 
 export const SelectFormContainer = styled.select`
   width: 150px;
@@ -17,7 +18,14 @@ export const SelectFormOption = styled.option`
 `;
 
 export const SelectFormLabel = styled.label`
-  color: #09779c;
+  color: ${(props: SelectFormLabelProps) =>
+    props.disabled ? 'rgba(0, 0, 0, 0.5)' : '#09779c'};
   font-family: 'Roboto';
   font-weight: bold;
+`;
+
+export const ErrorLabel = styled.p`
+  padding: 0px;
+  margin: 0px;
+  color: rgba(217, 83, 79, 1);
 `;
