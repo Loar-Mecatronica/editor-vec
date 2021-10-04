@@ -7,7 +7,7 @@ export const Dimmer = styled.div`
   opacity: ${(props: DimmerProps) => (props.active ? '1' : '0')};
   height: 100vh;
   position: fixed;
-  z-index: 9999px;
+  z-index: 99999;
   background-color: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(5px);
   justify-content: center;

@@ -24,3 +24,23 @@ export const StationLeft = styled.div`
 `;
 
 export const StationRight = styled.div``;
+
+export const SaveButton = styled.button`
+  display: flex;
+  background-color: #00b74a;
+  width: 100%;
+  height: 35px;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: 'Roboto';
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 3px;
+  border: 1px #00b74a solid;
+  transition: all 0.3s ease;
+  &:hover {
+    background-color: white;
+    color: #00b74a;
+  }
+`;

@@ -1,9 +1,4 @@
-import {
-  HomeContainer,
-  HomeLayout,
-  HomeList,
-  ItalicTitle,
-} from './Home.styles';
+import { HomeContainer, HomeLayout, HomeList } from './Home.styles';
 
 import { HomeRouter } from './Home-router';
 import { useSelector } from 'react-redux';
@@ -42,7 +37,7 @@ export const Home = () => {
       <HomeLayout>
         <NavBar />
         <hr />
-        <ItalicTitle>{location}</ItalicTitle>
+        {/*<ItalicTitle>{location}</ItalicTitle>*/}
         <HomeList opacity={opacity}>
           <HomeRouter />
         </HomeList>
@@ -62,6 +57,7 @@ export const Home = () => {
             setModal={setModal}
             refForm={refForm}
             successCallBack={() => {
+              setModal(false);
               alertState[1](true);
               setHomeAlert((old) => {
                 return {

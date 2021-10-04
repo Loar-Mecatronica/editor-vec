@@ -27,6 +27,7 @@ export const SpinnerDimmer = styled.div`
   background-color: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(5px);
   transition: none;
+  z-index: 1000;
 `;
 
 export const SpinnerContainer = styled.div`

@@ -15,6 +15,7 @@ export const InputForm = (props: InputFormProps) => {
     label = '',
     disabled = false,
     error,
+    loading = false,
   } = props;
   return (
     <InputFormContainer type={type}>
@@ -37,6 +38,7 @@ export const InputForm = (props: InputFormProps) => {
           disabled={disabled}
           min={0}
           id={name}
+          loading={loading}
           type={type}
           {...register}
         />

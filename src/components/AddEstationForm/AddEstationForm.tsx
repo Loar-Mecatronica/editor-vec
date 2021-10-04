@@ -1,21 +1,38 @@
 import { InputForm } from '../InputForm/InputForm';
 import {
+  AddCompButton,
   AddEstationFormLayout,
   AddFormHorizontalDivider,
   AddFormVerticalDivider,
+  SaveCompButton,
 } from './AddEstationForm.styles';
 import { AddEstationFormProps } from './AddEstationForm.interfaces';
 import { useForm } from 'react-hook-form';
 import { handleEstationLineSubmit } from './AddEstationForm.handlers';
 import { SelectForm } from '../../components/SelectForm/SelectForm';
-import { fetchComponentes, fetchSubEstacion } from './AddEstationForm.requests';
+import {
+  fetchComponentes,
+  fetchSubEstacion,
+  setComponent,
+} from './AddEstationForm.requests';
 import { useCallback, useEffect, useState } from 'react';
 import { fetchLineas } from '../../pages/Stations/Stations.requests';
 import { SpecialSelect } from '../SpecialSelect/SpecialSelect';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { AddEstationFormSchema } from './AddEstationForm.schema';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleLeft, faPlus, faSave } from '@fortawesome/free-solid-svg-icons';
+import ReactTooltip from 'react-tooltip';
 
 export const AddEstationForm = (props: AddEstationFormProps) => {
+  const {
+    refForm,
+    setModal,
+    successCallBack,
+    errorCallBack,
+    defaultValues,
+    editMode = false,
+  } = props;
   const {
     register,
     handleSubmit,
@@ -23,10 +40,11 @@ export const AddEstationForm = (props: AddEstationFormProps) => {
     setValue,
     formState: { errors },
   } = useForm<any>({
-    defaultValues: { linea: 22 },
+    defaultValues: { linea: 22, ...defaultValues },
     resolver: yupResolver(AddEstationFormSchema),
   });
-  const { refForm, setModal, successCallBack, errorCallBack } = props;
+  const [defaultComponent, setDefaultComponent] = useState('');
+  const [compText, setCompText] = useState(false);
   const [selectLineas, setSelectLineas] = useState<any>([]);
   const [defectDefault, setDefectDefault] =
     useState<{ label: string; value: string }[]>();
@@ -36,7 +54,6 @@ export const AddEstationForm = (props: AddEstationFormProps) => {
   const [subenOptions, setSubenOptions] = useState<
     { label: string; value: string; onClick?: () => void }[]
   >([]);
-
   const dataHandler = useCallback(
     (data) => {
       setValue(
@@ -49,14 +66,19 @@ export const AddEstationForm = (props: AddEstationFormProps) => {
 
   useEffect(() => {
     fetchLineas(2).then((response) => {
-      if (response.mensaje === 'OK')
+      if (response.mensaje === 'OK') {
         setSelectLineas(
           response.filtros.map((linea) => {
             return { label: linea.nombre, value: linea.id };
           })
         );
+        if (defaultValues) {
+          setValue('linea', defaultValues.linea);
+          setValue('componente', defaultValues.componente);
+        }
+      }
     });
-  }, []);
+  }, [defaultValues, setValue]);
   const lineChanges = watch().linea;
   const componentChanges = watch().componente;
   const typeChanges = watch().tipo;
@@ -68,15 +90,19 @@ export const AddEstationForm = (props: AddEstationFormProps) => {
         });
         setComponentOptions(newValue);
       }
+      if (defaultValues) {
+        setDefaultComponent(defaultValues.componente);
+        setValue('idEstacionSub', defaultValues.idEstacionSub);
+        setValue('componente', defaultValues.componente);
+      }
     });
-  }, [lineChanges]);
+  }, [lineChanges, defaultValues, setValue]);
 
   useEffect(() => {
     fetchSubEstacion(componentChanges, lineChanges).then((res) => {
       if (res.mensaje === 'OK') {
         setSubenOptions(
           res.filtros.map((v) => {
-            console.log(v);
             return { label: v.nombre, value: v.id };
           })
         );
@@ -96,7 +122,15 @@ export const AddEstationForm = (props: AddEstationFormProps) => {
       ]);
     else if (typeChanges === 'Probadora') setDefectDefault([]);
   }, [typeChanges]);
-
+  useEffect(() => {
+    if (defaultValues) {
+      setDefectDefault(
+        defaultValues.defectos.map((d: string) => {
+          return { label: d, value: d };
+        })
+      );
+    }
+  }, [defaultValues]);
   return (
     <AddEstationFormLayout
       ref={refForm}
@@ -104,7 +138,8 @@ export const AddEstationForm = (props: AddEstationFormProps) => {
         handleEstationLineSubmit(
           setModal as any,
           successCallBack,
-          errorCallBack
+          errorCallBack,
+          editMode
         )
       )}
     >
@@ -130,20 +165,108 @@ export const AddEstationForm = (props: AddEstationFormProps) => {
           options={selectLineas}
         />
         <AddFormVerticalDivider />
-        <SelectForm
-          name="componente"
-          label="componente"
-          error={errors.componente?.message}
-          options={componentsOptions}
-          register={register('componente')}
-        />
+        {!compText && (
+          <SelectForm
+            name="componente"
+            label="componente"
+            error={errors.componente?.message}
+            options={
+              watch().tipo === 'Probadora'
+                ? [
+                    { label: 'Alfi', value: 1 },
+                    { label: 'Checker', value: 2 },
+                  ]
+                : componentsOptions
+            }
+            register={register('componente')}
+          />
+        )}
+        {compText && watch().tipo !== 'Probadora' && (
+          <InputForm
+            name="componente"
+            error={errors.componente?.message}
+            label="componente"
+            register={register('componente')}
+            type="ip"
+          />
+        )}
+        {watch().tipo !== 'Probadora' && (
+          <div
+            style={{
+              display: 'flex',
+              fontSize: '15px',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <small style={{ margin: '0px', padding: 0 }}>
+              {compText ? 'Agregar componente' : 'Seleccionar un componente'}
+            </small>
+            <AddCompButton
+              data-tip
+              data-for={'addCompButton'}
+              onClick={() => {
+                if (!compText) {
+                  setValue('componente', '');
+                } else {
+                  setValue('componente', defaultComponent);
+                }
+                setCompText((old) => !old);
+              }}
+            >
+              <FontAwesomeIcon icon={compText ? faAngleLeft : faPlus} />
+            </AddCompButton>
+            {compText && (
+              <>
+                <SaveCompButton
+                  data-tip
+                  data-for={'saveCompButton'}
+                  onClick={() => {
+                    setComponent(watch().linea, watch().componente, 1)
+                      .then((response) => {
+                        if (response.Data.mensaje === 'OK') {
+                          setComponentOptions(
+                            response.Data.filtros.map((v: any) => {
+                              return { label: v.nombre, value: v.id };
+                            })
+                          );
+                        }
 
+                        console.log(
+                          'componente',
+                          (componentsOptions as any).find(
+                            (f: any) => f.label === 'TESTER'
+                          )
+                        );
+                        alert('componente creado correctamente');
+                      })
+                      .catch((e) => {
+                        console.log(e);
+                        alert('error en el servidor');
+                      });
+                    setCompText((old) => !old);
+                  }}
+                >
+                  <FontAwesomeIcon icon={faSave} />
+                </SaveCompButton>
+                <ReactTooltip id="saveCompButton" place="right" effect="solid">
+                  Guardar Componente
+                </ReactTooltip>
+              </>
+            )}
+            <ReactTooltip id="addCompButton" place="right" effect="solid">
+              {!compText
+                ? 'Agregar componente'
+                : 'Seleccionar un componente almacenado'}
+            </ReactTooltip>
+          </div>
+        )}
         <AddFormVerticalDivider />
         <InputForm
           name="ipScanner"
           error={errors.ipScanner?.message}
           label="ip del Scanner"
-          disabled={watch().tipo === 'Probadora'}
+          disabled={watch().tipo === 'Probadora' && watch().componente !== '2'}
           register={register('ipScanner')}
           type="ip"
         />
@@ -171,7 +294,7 @@ export const AddEstationForm = (props: AddEstationFormProps) => {
         />
         <AddFormVerticalDivider />
         <SelectForm
-          disabled={typeChanges === 'Probadora'}
+          disabled={typeChanges !== 'Linea'}
           name="idEstacionSub"
           label="Estación de Subensambles"
           register={register('idEstacionSub')}

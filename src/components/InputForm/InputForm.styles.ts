@@ -29,6 +29,8 @@ export const InputCheckbox = styled.input`
   -webkit-tap-highlight-color: transparent;
   position: relative;
   border: 0;
+
+  z-index: ${(props: { loading: boolean }) => (props.loading ? '-1' : '0')};
   outline: 0;
   cursor: pointer;
   margin: 10px;

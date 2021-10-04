@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import ReactTooltip from 'react-tooltip';
 import { ErrorLabel } from '../InputForm/InputForm.styles';
 import { SpecialSelectProps } from './SpecialSelect.interfaces';
 import {
@@ -58,16 +59,23 @@ export const SpecialSelect = (props: SpecialSelectProps) => {
       <SpecialSelectBadgeContainer>
         {values.map((val: any, i) => {
           return (
-            <SpecialSelectBadge
-              key={`badge-${i}`}
-              onClick={() => {
-                setValues((old) =>
-                  old.filter((filt) => filt.value !== val.value)
-                );
-              }}
-            >
-              {val.label}
-            </SpecialSelectBadge>
+            <>
+              <SpecialSelectBadge
+                data-tip
+                data-for={val.value}
+                key={`badge-${i}`}
+                onClick={() => {
+                  setValues((old) =>
+                    old.filter((filt) => filt.value !== val.value)
+                  );
+                }}
+              >
+                {val.label}
+              </SpecialSelectBadge>
+              <ReactTooltip id={val.value} place="left" effect="solid">
+                {val.value}
+              </ReactTooltip>
+            </>
           );
         })}
       </SpecialSelectBadgeContainer>
@@ -77,9 +85,10 @@ export const SpecialSelect = (props: SpecialSelectProps) => {
             fil.label.toLowerCase().includes(inputValue.toLowerCase())
           )
           .filter((fil2) => !values.find((el) => el.value === fil2.value))
-          .map((opt, i) => {
+          .map((opt, ind) => {
             return (
               <SpecialSelectOption
+                key={`optionSpecial-${ind}`}
                 onClick={() => {
                   if (opt.onclick) opt.onclick();
                   else {
@@ -89,7 +98,6 @@ export const SpecialSelect = (props: SpecialSelectProps) => {
                     ]);
                   }
                 }}
-                key={`optionSpecial-${i}`}
               >
                 {opt.label}
               </SpecialSelectOption>

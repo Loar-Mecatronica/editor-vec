@@ -23,18 +23,20 @@ export const StationsView = () => {
   const [stations, setStations] = useState<any[]>([]);
   const [lines, setLines] = useState<any[]>([]);
   const [pickedLine, setPickedLine] = useState(21);
-  const [pickedType, setPickedType] = useState('Subensamble');
+  const [pickedType, setPickedType] = useState('Linea');
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     dispatch({ type: SET_LOCATION, payload: 'Estaciones' });
     setTimeout(() => dispatch({ type: PAGE_ON }), 500);
-    fetchLineas(5).then((result) => {
-      if (result.mensaje === 'OK') {
-        setLines(result.filtros);
-      } else {
-        alert(result.mensaje);
-      }
-    });
+    fetchLineas(5)
+      .then((result) => {
+        if (result.mensaje === 'OK') {
+          setLines(result.filtros);
+        } else {
+          alert(result.mensaje);
+        }
+      })
+      .catch((e) => console.log(e));
   }, [location, dispatch]);
 
   useEffect(() => {
@@ -63,7 +65,19 @@ export const StationsView = () => {
           <FilterContainer>
             <TypesContainer>
               <SearcherSelect
-                label="tipo de linea"
+                onPick={(picked) => setPickedLine(picked.value)}
+                label="Linea"
+                default={{ label: 'M2 (Estufas)', value: pickedLine }}
+                options={lines.map((l) => {
+                  return { label: l.nombre, value: l.id };
+                })}
+              />
+            </TypesContainer>
+            <TypesContainer>
+              <SearcherSelect
+                onPick={(picked) => setPickedType(picked.value)}
+                label="Proceso"
+                default={{ label: 'Linea', value: 'Linea' }}
                 options={[
                   { label: 'Subensamble', value: 'Subensamble' },
                   { label: 'Linea', value: 'Linea' },
@@ -71,47 +85,6 @@ export const StationsView = () => {
                 ]}
               />
             </TypesContainer>
-            <TypesContainer>
-              <SearcherSelect
-                label="linea"
-                options={lines.map((l) => {
-                  return { label: l.nombre, value: l.id };
-                })}
-              />
-            </TypesContainer>
-            {/*<TypesContainer>
-              <LineButton
-                onClick={() => setPickedType('Subensamble')}
-                picked={pickedType === 'Subensamble'}
-              >
-                subensamble
-              </LineButton>
-              <LineButton
-                onClick={() => setPickedType('Linea')}
-                picked={pickedType === 'Linea'}
-              >
-                linea
-              </LineButton>
-              <LineButton
-                onClick={() => setPickedType('Probadora')}
-                picked={pickedType === 'Probadora'}
-              >
-                probadora
-              </LineButton>
-            </TypesContainer>
-            <LinesContainer>
-              {lines.map((line, index) => {
-                return (
-                  <LineButton
-                    picked={pickedLine === line.id}
-                    onClick={() => setPickedLine(line.id)}
-                    key={`line${index}`}
-                  >
-                    {line.nombre}
-                  </LineButton>
-                );
-              })}
-            </LinesContainer>*/}
           </FilterContainer>
           <CardHolder>
             {stations.map((station, k) => {

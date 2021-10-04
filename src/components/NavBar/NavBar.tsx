@@ -1,19 +1,13 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useRouteMatch } from 'react-router';
-import { PAGE_OFF, PAGE_ON } from '../../store/actions';
-import { AppState } from '../../store/App-state.interfaces';
-import {
-  ItemControl,
-  LeftTitle,
-  NavBarLayout,
-  RightControls,
-} from './NavBar.styles';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router';
+import { PAGE_OFF } from '../../store/actions';
+import { LeftTitle, NavBarLayout, RightControls } from './NavBar.styles';
 
 export const NavBar = () => {
   const history = useHistory();
-  const { path } = useRouteMatch();
   const dispatch = useDispatch();
-  const location = useSelector((state: AppState) => state.session.location);
 
   return (
     <NavBarLayout>
@@ -23,9 +17,16 @@ export const NavBar = () => {
           history.push('/');
         }}
       >
-        Editor Genealogia
+        Editor de Estaciones
       </LeftTitle>
       <RightControls>
+        <FontAwesomeIcon
+          icon={faHome}
+          style={{ color: '#09779c', cursor: 'pointer' }}
+          onClick={() => history.replace('/')}
+        />
+      </RightControls>
+      {/*<RightControls>
         <ItemControl
           selected={location === 'Estaciones'}
           onClick={() => {
@@ -45,7 +46,7 @@ export const NavBar = () => {
         >
           Componentes
         </ItemControl>
-      </RightControls>
+        </RightControls>*/}
     </NavBarLayout>
   );
 };
